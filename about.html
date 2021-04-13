@@ -1,0 +1,1485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <title>Inhabitants, Illness, and Interment</title>
+    <meta name="description" content="The Inhabitants, Illness, and Interment online exhibit project seeks to connect the past to the present through an interactive GIS project mapping Charleston city death records from 1860, exploring issues of public health, class, and demographics during a time of looming conflict across a familiar landscape.">
+    <meta name="author" content="Danielle Cox">
+    <meta name="keywords" content="Charleston, mapping, georefererencing, GIS, death, disease, illness, public health, history, Civil War, American Civil War, South Carolina, mortality, 1860, records, secession, demographics, census, medicine, pandemic, endemic, epidemic">
+    <style>
+         p {font-family: 'Merriweather', serif;
+            color:#210F04;
+        }
+        .footnotes {font-weight: normal;
+            font-family: 'Merriweather', serif;
+            color:#210F04;
+            font-size: 12px;
+            padding: 8px 0px;
+        }
+        nav {background-color: #210F04;
+        }
+        a {color: #BCAB88;
+            font-family: 'Merriweather', serif;
+        }
+        a:hover {color: #9f9382;
+            text-decoration:none;
+        }
+        h1 {color:#A39a64; 
+            text-shadow: 3px 3px 5px #210F0480, -3px -3px 5px #210F0480, -3px 3px 5px #210F0480, 3px -3px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Oswald', sans-serif;
+        }
+        h2 {color:#A39a64; 
+            text-shadow: 1px 1px 5px #210F0480, -1px -1px 5px #210F0480, -1px 1px 5px #210F0480, 1px -1px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Merriweather', serif;
+        }
+        h3 {color: #BCAB88;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+        }
+        h4 {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+        }
+        tr{border: 2px solid #675226}
+        th {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+            padding: 2px 20px 0px 0px;
+        }
+        td {color:#210F04;
+            font-family: 'Merriweather', serif;
+        }
+        .exhibitTitle {
+            background-color: #210F04;
+            height: 100%;
+            text-align: center;
+            margin: 0px 2px;
+            border-radius: 10px 10px 0px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-tabs > li > a:focus{
+            color:#210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .nav-tabs > li > a:active{
+            color: #210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .scroll {
+            max-height: 66vh;
+            overflow-y: auto;
+        }
+        .shadow {
+            position: relative;
+            z-index: 10;
+            box-shadow: 10px 10px black;
+        }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-md">
+  <a class="navbar-brand" href="/index.html"><div class="align-content-center" style="margin:-8px; font-size: 28px font-family: 'Oswald', sans-serif;"><!--Insert SVG here if you want one-->HIST 525: Introduction to Public History</div></a>
+      <!-- MAKE SURE THIS TOGGLE SHIT WORKS-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end"  id="navbarNav">
+    <ul class="navbar-nav" >
+      <li class="nav-item active">
+        <a class="nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about.html">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sources.html">Sources</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    
+    <!-- Top Intro Portion -->
+    <div class="jumbotron jumbotron-fluid" style="background-image:url('/images/header.jpeg'); background-color: #cccccc;
+  width:100%;background-position:center center; background-repeat: no-repeat; background-size:cover; margin-bottom:0px;">
+      <div class="container justify-content-center align-content-center justify">
+        <div class="d-flex justify-content-center"><!--Insert SVG here if you want one--></div>
+        <h1 class="display-3 d-flex justify-content-center text-center" >Inhabitants, Illness, and Interment</h1>
+        <h2 class="display-5 d-flex justify-content-center text-center">Deaths in Charleston on the Eve of War</h2>
+      </div>
+    </div>
+
+<!--Exhibit Text-->
+    <!--Exhibit Content-->
+<div style="background-color: #A39a64; padding: 20px">
+ <div class="row" style="padding: 0vw 5vw">
+    <div  style="background-color:#210f04; margin:5px 0px; padding:-5px;"><h3 class="text-lg-left text-md-left text-sm-center ">About</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-11 col-md-11 col-sm-11">
+    <p>This project is part of the final project for HIST 525: Introduction to Public History at the College of Charleston, taught by Dr. Rachel Donaldson in Fall 2020. The goal was to create a public-facing digital project using the tenets of conscientious public historical scholarship. Hopefully I have succeeded, but I welcome feedback and constructive criticism.</p><p>
+The main source of this project was the Return of Death records, the originals of which are held in the Charleston Archive of the Charleston County Public Library, and the digital scans of which are available at FamilySearch.org. They are far from perfect, as pointed out by James W. Hagy in his 1990 article "The Death Records of Charleston." By cross referencing Jewish individuals listed in this collection with synagogue records, gravemarker inscriptions, and other archival sources, he concludes that some of the entries provide inaccurate or conflicting information on things like date of death and age, and omits information for some on things like cause of death and occupation, but still provides a valuable set of data that should not be completely discounted.<sup>1 </sup> Like any historical evidence, these should be examined critically and supplemented with other sources in order to present the fullest and most accurate possible picture. I have done my best to do so with the sources listed here.</p><p>
+    Several entries were unable to be mapped due to a lack of address, or an address whose currently location couldn't be found or mapped. Some are included in the burial ground listed for the individual, but all are included in analysis involving the entire dataset. These are given in the table below, because every name is important.<sup>2 </sup>
+</p><p>
+If any scholars are interested in obtaining a copy of the spreadsheet I compiled containing the Return of Death records from 1860, please feel free to <a style="color: #675226" href="mailto:coxda@g.cofc.edu">email me</a>. It was very time consuming and I'd be happy to save someone else the effort.</p><p>
+Potential employers impressed by this project should visit <a style="color: #675226" href="https://www.linkedin.com/in/danielle-cox-499a84106/">my LinkedIn profile.</a> All research, writing, web design and coding, and GIS work was 100% completed by me, Danielle Cox. </p><p>
+Special thanks to Dr. Rachel Donaldson for her guidance and advice on this project and for providing an interesting and insightful introduction to the field of project history, and to Amanda Holling at the Charleston Archive for giving me an abundance of information about these records' scope, provenance, and accessibility. Thanks also to my classmates in this class and others who patiently allowed me to bounce ideas off them, to various professors who answered random niche questions in the course of talking about other things, and to my friends, family members, and cats who were probably confused and upset hearing me talk about nineteenth century causes of death, but were supportive nevertheless.</p>
+<hr>
+<table>
+<table>
+  <tr>
+    <th>Burial Place</th>
+    <th>Name</th>
+    <th>Enslaver</th>
+    <th>Gender</th>
+    <th>Race</th>
+    <th>Condition</th>
+    <th>Age</th>
+    <th>Occupation</th>
+    <th>Birthplace</th>
+    <th>Disease</th>
+    <th>Physician</th>
+    <th>Date</th>
+  </tr>
+<td> <br>Public Cemetery </td>
+    <td> <br>Infant Slave </td>
+    <td> <br>D. R. L. Baker </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>Isabella Lafar </td>
+    <td> <br>March 22, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Jane </td>
+    <td> <br>J. Dougherty Esq. </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Burn </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>June 14, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Methodist Protestant Church Colored Cemetery </td>
+    <td> <br>Emma </td>
+    <td> <br>Mr. McAndrew </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>March 26, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Methodist Protestant Church Colored Cemetery </td>
+    <td> <br>Infant </td>
+    <td> <br>C. Kenison Esq. </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>T. L. Ogier Jr. </td>
+    <td> <br>November 2, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Martha </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>July 16, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Negro </td>
+    <td> <br>Mr. E. Edwards </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Lungs, Congestion of </td>
+    <td> <br>W. H. Huger </td>
+    <td> <br>September 22, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Richard </td>
+    <td> <br>Miss. M. Whitney </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Teething </td>
+    <td> <br>C. M. Rivers </td>
+    <td> <br>July 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Charles </td>
+    <td> <br>Miss S. L. Lucas </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Bronchitis </td>
+    <td> <br>D. J. Cain </td>
+    <td> <br>February 5, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Infant </td>
+    <td> <br>Mr. Geo. Taft </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>February 10, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Theophilus Merril </td>
+    <td> <br>Miss S. L. Lucas </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Apoplexy </td>
+    <td> <br>M. Greenland </td>
+    <td> <br>February 5, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>A negro child </td>
+    <td> <br>Mrs. Simons </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>W. H. Huger </td>
+    <td> <br>July 11, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Child </td>
+    <td> <br>Mr. Broughton </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>1 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Abcess </td>
+    <td> <br>F. Peyre Porcher </td>
+    <td> <br>August 8, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Ephrath Cemetery </td>
+    <td> <br>Infant </td>
+    <td> <br>Alex. Robertson Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>1 </td>
+    <td> <br>Minor </td>
+    <td> <br> </td>
+    <td> <br>Dysentery </td>
+    <td> <br>T. L. Ogier Jr. </td>
+    <td> <br>November 1, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Bob </td>
+    <td> <br>Miss Hort </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>2 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Diarrhea, Chronic </td>
+    <td> <br>J. P. Chazal </td>
+    <td> <br>August 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>Sarah Celeste </td>
+    <td> <br>Mr. D. Lesesne </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>3 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Dropsy </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>January 4, 1860 </td>
+  </tr>
+    <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Sye </td>
+    <td> <br>E. Capers </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>3 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Worm Fever </td>
+    <td> <br>Middleton Michel </td>
+    <td> <br>May 19, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Colored Cemetery </td>
+    <td> <br>Mary </td>
+    <td> <br>Mrs. E. Godfrey </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>4 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Whooping Cough </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>June 19, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>William </td>
+    <td> <br>P. Buchrut Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>17 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Charleston </td>
+    <td> <br>Bowels, Inflamation of </td>
+    <td> <br>William T. Wragg </td>
+    <td> <br>April 17, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br> </td>
+    <td> <br>Jane </td>
+    <td> <br>Mrs. Walkins </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>23 </td>
+    <td> <br>Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Diarrhea, Chronic </td>
+    <td> <br>D. J. Cain </td>
+    <td> <br>April 19, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>Elizabeth </td>
+    <td> <br>Mrs. LeBruce </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>25 </td>
+    <td> <br>House Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Consumption </td>
+    <td> <br>A. N. Bellinger </td>
+    <td> <br>October 28, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Tenato </td>
+    <td> <br>Mr. J.H. Tate </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>25 </td>
+    <td> <br>Cook </td>
+    <td> <br>Charleston </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>J.F. Poppenheim </td>
+    <td> <br>June 16, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Judith </td>
+    <td> <br>Alex. Robertson Esq. </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>30 </td>
+    <td> <br>Washer </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Lungs, Congestion of </td>
+    <td> <br>Peter Porcher </td>
+    <td> <br>February 27, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Margaret </td>
+    <td> <br>Mrs. Clark </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>35 </td>
+    <td> <br>Washer </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pneumonia, Chronic </td>
+    <td> <br>R. J. Limehouse </td>
+    <td> <br>July 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>George </td>
+    <td> <br>Danl. Heyward Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>40 </td>
+    <td> <br>Boathand </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pneumonia Typhoides </td>
+    <td> <br>T. L. Ogier Jr. </td>
+    <td> <br>February 22, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Second Presbyterian Colored Cemetery </td>
+    <td> <br>Alice </td>
+    <td> <br>Mrs. Shackelford </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>49 </td>
+    <td> <br>Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Cancer Uteri </td>
+    <td> <br>John Bellinger </td>
+    <td> <br>January 15, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Betsy </td>
+    <td> <br>Mrs. C.M. Perry </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>58 </td>
+    <td> <br>Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Hepatitis </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>May 5, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Nancy </td>
+    <td> <br>Mrs. M. E. Lord </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>60 </td>
+    <td> <br>Domestic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pericarditis </td>
+    <td> <br>A. L. Hammond </td>
+    <td> <br>March 17, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>William </td>
+    <td> <br>Est. Miss S. Rutledge </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>78 </td>
+    <td> <br>Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Old Age </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>June 29, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Patrick’s Church Cemetery </td>
+    <td> <br>Mary Jane </td>
+    <td> <br>Mr. Lelane </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>80 </td>
+    <td> <br>Domestic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pneumonia </td>
+    <td> <br>W. M. Michels </td>
+    <td> <br>March 17, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Field of Rest </td>
+    <td> <br>Brister </td>
+    <td> <br>Mrs. W. W. Ancrum </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>80 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Charleston </td>
+    <td> <br>Dropsy </td>
+    <td> <br>John L. Dawson </td>
+    <td> <br>February 21, 1860 </td>
+  </tr>
+   <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>Daniel </td>
+    <td> <br>Est. Jon Lucas </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>85 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Charleston </td>
+    <td> <br>Old Age </td>
+    <td> <br>Elias Horlbeck </td>
+    <td> <br>February 10, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Pleasant </td>
+    <td> <br>Mr. J. Cohen </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>88 </td>
+    <td> <br>Servant </td>
+    <td> <br>Africa </td>
+    <td> <br>Old Age </td>
+    <td> <br>T. E. Hertz </td>
+    <td> <br>November 16, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>Daniel </td>
+    <td> <br>A. H. Abrahams Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>90 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Charleston </td>
+    <td> <br>Old Age </td>
+    <td> <br>E. M. Whiting, Cor. </td>
+    <td> <br>February 12, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>Dinah </td>
+    <td> <br>James Dupree </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>95 </td>
+    <td> <br>Nurse </td>
+    <td> <br>Charleston </td>
+    <td> <br>Old Age </td>
+    <td> <br>Horatio S. Waring </td>
+    <td> <br>February 1, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Infant </td>
+    <td> <br>E. M. Beach Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br> </td>
+    <td> <br> </td>
+    <td> <br>Charleston </td>
+    <td> <br>Stillborn </td>
+    <td> <br>T. L. Ogier Jr. </td>
+    <td> <br>January 29, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>A female infant </td>
+    <td> <br>C.F. Hanckel Esq., Stillborn </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br> </td>
+    <td> <br> </td>
+    <td> <br> </td>
+    <td> <br>Stillborn </td>
+    <td> <br>William T. Wragg </td>
+    <td> <br>June 23, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>MacPhelah Cemetery </td>
+    <td> <br>Julia F. Will </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Cholera Infantum </td>
+    <td> <br>G. W. Wescott </td>
+    <td> <br>August 18, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>MacPhelah Cemetery </td>
+    <td> <br>Mary Washington </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>S. C. Webster </td>
+    <td> <br>June 16, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Brown Fellowship Cemetery </td>
+    <td> <br>Infant of Eliza Deas </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>April 8, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Second Presbyterian Colored Cemetery </td>
+    <td> <br>John </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Want of Vitality </td>
+    <td> <br>Celia Dedrick </td>
+    <td> <br>June 2, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>African Cemetery </td>
+    <td> <br>Mr. Edward's Child </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Teething </td>
+    <td> <br>H. C. Guerin </td>
+    <td> <br>October 3, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Methodist Protestant Church Colored Cemetery </td>
+    <td> <br>Paul Drayton </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Lungs, Inflammation of </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>June 4, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Methodist Protestant Church Colored Cemetery </td>
+    <td> <br>Francis Wiss </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Enteritis </td>
+    <td> <br>W. H. Ford </td>
+    <td> <br>August 12, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>Harriet Miles' Child </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Birth, Premature </td>
+    <td> <br>W. H. Huger </td>
+    <td> <br>November 18, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Brotherly Association Cemetery </td>
+    <td> <br>Julia Hare </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>4 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Whooping Cough </td>
+    <td> <br>Middleton Michel </td>
+    <td> <br>June 24, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>Mary Legare </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>32 </td>
+    <td> <br>Seamstress </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pericarditis </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>November 10, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>Jackson </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>58 </td>
+    <td> <br>Mechanic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Rheumatism </td>
+    <td> <br>J. C. Ludwig </td>
+    <td> <br>December 27, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>MacPhelah Cemetery </td>
+    <td> <br>C. Verie </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>59 </td>
+    <td> <br>Seamstress </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Cerebral Congestion </td>
+    <td> <br>Middleton Michel </td>
+    <td> <br>March 30, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>First Baptist Church Colored Cemetery </td>
+    <td> <br>William Jackson </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>62 </td>
+    <td> <br>Mechanic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>C. L. Meyer </td>
+    <td> <br>April 24, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>White Infant </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Foundling </td>
+    <td> <br>Charleston </td>
+    <td> <br>Diarrhea </td>
+    <td> <br>H.E. Bissell </td>
+    <td> <br>May 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Mary Torres </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>C. L. Meyer </td>
+    <td> <br>May 24, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Mary Vaughan </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Lungs, Congestion of </td>
+    <td> <br>J. J. Chisolm </td>
+    <td> <br>October 13, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>Elizabeth M. Busch </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Hemorrhage of Bowels </td>
+    <td> <br>R. M. Brailsford </td>
+    <td> <br>February 15, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>Ann Catherine Lubbs </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Gastro Enteritis </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>May 13, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Amelia Smith </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Teething </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>May 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Mary’s Church Cemetery </td>
+    <td> <br>Mr. Millar's Son </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Hemorrhage </td>
+    <td> <br>C. Davega </td>
+    <td> <br>November 25, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>Mr. Froning's Child </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Lungs, Congestion of </td>
+    <td> <br>C. Davega </td>
+    <td> <br>September 21, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Magnolia Cemetery </td>
+    <td> <br>George N. Brickwell </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Pneumonia </td>
+    <td> <br>G. W. Wescott </td>
+    <td> <br>February 13, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Kennedy O'Brien </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Trismus Nascentium </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>February 7, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>Mr. Mason's Son </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>J. J. Chisolm </td>
+    <td> <br>November 23, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Malike Tighe </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Diarrhea </td>
+    <td> <br>S. L. Lockwood </td>
+    <td> <br>July 16, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Jewish Cemetery - Hanover Street </td>
+    <td> <br>Mendal S. Rubenstan </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>0 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Teething </td>
+    <td> <br>T. E. Hertz </td>
+    <td> <br>May 11, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br> </td>
+    <td> <br>James B. S... </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>3 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Convulsions </td>
+    <td> <br>G. W. Wescott </td>
+    <td> <br>October 1, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Unitarian Church Cemetery </td>
+    <td> <br>Catherine Miller </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>8 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Sore throat, Membranous </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>September 2, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>Anne Millington </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>15 </td>
+    <td> <br>Minor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>Geo. E. Trescot </td>
+    <td> <br>August 31, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>P. Dolen </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>22 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Germany </td>
+    <td> <br>Stomach, Inflammation of </td>
+    <td> <br>C. J. Proctor </td>
+    <td> <br>July 4, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>Sarah Tucker </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>25 </td>
+    <td> <br>Mother </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>C. L. Meyer </td>
+    <td> <br>April 20, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>Peter Weinheimer </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>28 </td>
+    <td> <br>Merchant </td>
+    <td> <br>Germany </td>
+    <td> <br>Coup de Soleil </td>
+    <td> <br>Middleton Michel </td>
+    <td> <br>July 5, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Interred out of City </td>
+    <td> <br>P.f. Chartrand </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>28 </td>
+    <td> <br>Merchant </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Consumption </td>
+    <td> <br>Middleton Michel </td>
+    <td> <br>October 26, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>F. Collmann </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>30 </td>
+    <td> <br> </td>
+    <td> <br>Germany </td>
+    <td> <br>Consumption </td>
+    <td> <br>J. C. Ludwig </td>
+    <td> <br>October 29, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Ellen Maloney </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>35 </td>
+    <td> <br>Servant </td>
+    <td> <br>Ireland </td>
+    <td> <br>Brain, Congestion of </td>
+    <td> <br>Geo. E. Trescot </td>
+    <td> <br>May 10, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>An unknown person </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>35 </td>
+    <td> <br>Laborer </td>
+    <td> <br> </td>
+    <td> <br>Unknown </td>
+    <td> <br>E. M. Whiting, Cor. </td>
+    <td> <br>April 4, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>Mrs. A. Lubbs </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>36 </td>
+    <td> <br>Wife &amp; Mother </td>
+    <td> <br>Germany </td>
+    <td> <br>Debility </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>September 21, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Bethania Cemetery </td>
+    <td> <br>C. Federwith </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>37 </td>
+    <td> <br>Clerk </td>
+    <td> <br>Germany </td>
+    <td> <br>Gastritis </td>
+    <td> <br>G. W. Wescott </td>
+    <td> <br>July 12, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>William Kayal </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>42 </td>
+    <td> <br>Mechanic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>March 28, 1860 </td>
+  </tr>
+  <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Bridget Noonan </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>43 </td>
+    <td> <br>Wife </td>
+    <td> <br>Ireland </td>
+    <td> <br>Apoplexy </td>
+    <td> <br>Henry R. Frost </td>
+    <td> <br>June 20, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Julia Duvaul </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>45 </td>
+    <td> <br>Wife </td>
+    <td> <br>Canada </td>
+    <td> <br>Heart, Dropsy of </td>
+    <td> <br>T. R. Aldrich </td>
+    <td> <br>May 6, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>James Donnelly </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>45 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Ireland </td>
+    <td> <br>Phrenitis </td>
+    <td> <br>C. J. Proctor </td>
+    <td> <br>July 20, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Magnolia Cemetery </td>
+    <td> <br>Mrs. Joseph Smith </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>48 </td>
+    <td> <br>Mother </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>C. J. Proctor </td>
+    <td> <br>July 5, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Thomas Quin </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>50 </td>
+    <td> <br>Laborer </td>
+    <td> <br>Ireland </td>
+    <td> <br>Complication of Disease </td>
+    <td> <br>S. L. Lockwood </td>
+    <td> <br>May 20, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>Boehan </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>50 </td>
+    <td> <br>Gardener </td>
+    <td> <br>Ireland </td>
+    <td> <br>Pneumonia </td>
+    <td> <br>S. L. Lockwood </td>
+    <td> <br>July 9, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>Unitarian Church Cemetery </td>
+    <td> <br>Barrow </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>55 </td>
+    <td> <br>Domestic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Breast, Cancer of </td>
+    <td> <br>J. J. Chisolm </td>
+    <td> <br>December 23, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br>St. John’s Church Cemetery </td>
+    <td> <br>Joseph Laurence </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>60 </td>
+    <td> <br>Mechanic </td>
+    <td> <br>Germany </td>
+    <td> <br>Pneumonia, Typhus </td>
+    <td> <br>R. M. Brailsford </td>
+    <td> <br>October 11, 1860 </td>
+  </tr>
+  <tr>
+    <td> <br> </td>
+    <td> <br>Mrs. P.h. Chisolm </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>84 </td>
+    <td> <br>Domestic </td>
+    <td> <br>Charleston </td>
+    <td> <br>Bronchitis </td>
+    <td> <br>J. J. Chisolm </td>
+    <td> <br>December 6, 1860 </td>
+    </tr>
+</table>
+<table>
+    <tr>
+    <th>Burial Place </th>
+    <th>Name </th>
+    <th>Enslaver </th>
+    <th>Gender </th>
+    <th>Race </th>
+    <th>Condition </th>
+    <th>Age </th>
+    <th>Occupation </th>
+    <th>Birthplace </th>
+    <th>Disease </th>
+    <th>Physician </th>
+    <th>Date </th>
+    <th>Residence Place</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td> <br>St. John’s Church Colored Cemetery </td>
+    <td> <br>Rev: Mr. Lynch's woman </td>
+    <td> <br>Rev. Mr. Lynch </td>
+    <td> <br>female </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>50 </td>
+    <td> <br>Servant </td>
+    <td> <br>Charleston </td>
+    <td> <br>Dropsy </td>
+    <td> <br>Augustus Fitch </td>
+    <td> <br>January 9, 1860 </td>
+    <td> <br>Boate Alley </td>
+  </tr>
+  <tr>
+    <td> <br>Trinity Church Colored Cemetery </td>
+    <td> <br>Louisa Cochran </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>Mulatto </td>
+    <td> <br>Free Col. </td>
+    <td> <br>45 </td>
+    <td> <br>Seamstress </td>
+    <td> <br>Charleston </td>
+    <td> <br>Consumption </td>
+    <td> <br>Augustus Fitch </td>
+    <td> <br>April 2, 1860 </td>
+    <td> <br>Cohen's Court </td>
+  </tr>
+  <tr>
+    <td> <br>St. Lawrence Cemetery </td>
+    <td> <br>Huetson </td>
+    <td> <br> </td>
+    <td> <br>female </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>45 </td>
+    <td> <br>Washer </td>
+    <td> <br>Ireland </td>
+    <td> <br>Consumption </td>
+    <td> <br>S. L. Lockwood </td>
+    <td> <br>October 15, 1860 </td>
+    <td> <br>Gadsden's Green </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>John Colinwood </td>
+    <td> <br> </td>
+    <td> <br>male </td>
+    <td> <br>White </td>
+    <td> <br> </td>
+    <td> <br>17 </td>
+    <td> <br>Sailor </td>
+    <td> <br>Charleston </td>
+    <td> <br>Fever, Typhoid </td>
+    <td> <br>Wm. Snowden </td>
+    <td> <br>July 4, 1860 </td>
+    <td> <br>Lodebar School Ship </td>
+  </tr>
+  <tr>
+    <td> <br>Lutheran Colored Cemetery </td>
+    <td> <br>Dick </td>
+    <td> <br>Est. L. V. Martin </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>40 </td>
+    <td> <br>Mason </td>
+    <td> <br>Charleston </td>
+    <td> <br>Tetanus </td>
+    <td> <br>A. Peurofoy </td>
+    <td> <br>February 5, 1860 </td>
+    <td> <br>Phenix St. </td>
+  </tr>
+  <tr>
+    <td> <br>Public Cemetery </td>
+    <td> <br>Prince </td>
+    <td> <br>W. Lowrey Esq. </td>
+    <td> <br>male </td>
+    <td> <br>Black </td>
+    <td> <br>slave </td>
+    <td> <br>50 </td>
+    <td> <br>Laborer </td>
+    <td> <br>South Carolina </td>
+    <td> <br>Apoplexy </td>
+    <td> <br>E. M. Whiting, Cor. </td>
+    <td> <br>April 21, 1860 </td>
+    <td> <br>Whapoo </td>
+  </tr>
+</table>
+<hr>
+<div class="footnotes"><sup>1 </sup>James W. Hagy, “The Death Records of Charleston,” <i>The South Carolina Historical Magazine</i> 91, no. 1 (1990): 32–44.</div>
+<div class="footnotes"><sup>2 </sup>City of Charleston, SC Board of Health, <i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 350-410. https://www.familysearch.org/search/catalog/3477663.</div>
+</div>
+      </div>
+    </div>
+
+  <!-- Footer -->
+<div class="container-fluid" style="background:#210F04">
+    <div class="row">
+      <div class="col align-bottom">
+    <p style="font-size:15px; margin:5px 0px; color: #BCAB88">Copyright ©<script>document.write(new Date().getFullYear());</script> Danielle Cox</p>
+      </div>
+      <!--ADD SOCIAL MEDIA BUTTONS-->
+      <div class="col" style="margin:10px 0px">
+        
+	<a target="_blank" href="http://www.facebook.com/share.php?u=tinyurl.com/IIExhibit">
+	<img title="Facebook" alt="Facebook" src="https://socialmediawidgets.files.wordpress.com/2014/03/02_facebook.png" width="35" height="35">
+	</a>
+	<a target="_blank" href="https://twitter.com/intent/tweet?url=tinyurl.com/IIIExhibit&text=I+just+visited+the+Inhabitants,+Illness,+and+Interments+Online+Exhibit+and+I+think...&hashtags=IIIExhibit,CharlestonHistory">
+<img title="Twitter" alt="Twitter" src="https://socialmediawidgets.files.wordpress.com/2014/03/01_twitter.png" width="35" height="35" />
+</a>
+	<a target="_blank" href="https://www.linkedin.com/in/danielle-cox-499a84106">
+	<img title="LinkedIn" alt="LinkedIn" src="https://socialmediawidgets.files.wordpress.com/2014/03/07_linkedin.png" width="35" height="35">
+	</a>
+	
+  <a href="mailto:coxda@g.cofc.edu">
+	<img title="email" alt="Email" src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/128/email-icon.png" width="35" height="35">
+	</a>
+	</div>
+    
+      </div>
+  <div class="row">
+    <div class="col">
+	<p class="justify-text-center" style="font-size:10px; color:#9F9382">I coded this website myself from scratch, so please be patient with any bugs.</p>
+</div>
+    </div>
+  </div>
+  </body>
+</html>

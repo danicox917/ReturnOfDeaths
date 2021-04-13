@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <title>Inhabitants, Illness, and Interment</title>
+    <meta name="description" content="The Inhabitants, Illness, and Interment online exhibit project seeks to connect the past to the present through an interactive GIS project mapping Charleston city death records from 1860, exploring issues of public health, class, and demographics during a time of looming conflict across a familiar landscape.">
+    <meta name="author" content="Danielle Cox">
+    <meta name="keywords" content="Charleston, mapping, georefererencing, GIS, death, disease, illness, public health, history, Civil War, American Civil War, South Carolina, mortality, 1860, records, secession, demographics, census, medicine, pandemic, endemic, epidemic">
+    <style>
+         p {font-family: 'Merriweather', serif;
+            color:#210F04;
+        }
+        .footnotes {font-weight: normal;
+            font-family: 'Merriweather', serif;
+            color:#210F04;
+            font-size: 12px;
+            padding: 8px 0px;
+        }
+        nav {background-color: #210F04;
+        }
+        a {color: #BCAB88;
+            font-family: 'Merriweather', serif;
+        }
+        a:hover {color: #9f9382;
+            text-decoration:none;
+        }
+        h1 {color:#A39a64; 
+            text-shadow: 3px 3px 5px #210F0480, -3px -3px 5px #210F0480, -3px 3px 5px #210F0480, 3px -3px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Oswald', sans-serif;
+        }
+        h2 {color:#A39a64; 
+            text-shadow: 1px 1px 5px #210F0480, -1px -1px 5px #210F0480, -1px 1px 5px #210F0480, 1px -1px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Merriweather', serif;
+        }
+        h3 {color: #BCAB88;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+        }
+        h4 {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+        }
+        tr{border: 2px solid #675226}
+        th {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+            padding: 2px 20px 0px 0px;
+        }
+        td {color:#210F04;
+            font-family: 'Merriweather', serif;
+        }
+        .exhibitTitle {
+            background-color: #210F04;
+            height: 100%;
+            text-align: center;
+            margin: 0px 2px;
+            border-radius: 10px 10px 0px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-tabs > li > a:focus{
+            color:#210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .nav-tabs > li > a:active{
+            color: #210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .scroll {
+            max-height: 66vh;
+            overflow-y: auto;
+        }
+        .shadow {
+            position: relative;
+            z-index: 10;
+            box-shadow: 10px 10px black;
+        }
+        .indent{
+            text-indent: -36px; 
+            padding-left: 36px;
+            word-wrap: break-word;
+        }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-md">
+  <a class="navbar-brand" href="/index.html"><div class="align-content-center" style="margin:-8px; font-size: 28px font-family: 'Oswald', sans-serif;"><!--Insert SVG here if you want one-->HIST 525: Introduction to Public History</div></a>
+      <!-- MAKE SURE THIS TOGGLE SHIT WORKS-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end"  id="navbarNav">
+    <ul class="navbar-nav" >
+      <li class="nav-item active">
+        <a class="nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about.html">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sources.html">Sources</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    
+    <!-- Top Intro Portion -->
+    <div class="jumbotron jumbotron-fluid" style="background-image:url('/images/header.jpeg'); background-color: #cccccc;
+  width:100%;background-position:center center; background-repeat: no-repeat; background-size:cover; margin-bottom:0px;">
+      <div class="container justify-content-center align-content-center justify">
+        <div class="d-flex justify-content-center"><!--Insert SVG here if you want one--></div>
+        <h1 class="display-3 d-flex justify-content-center text-center" >Inhabitants, Illness, and Interment</h1>
+        <h2 class="display-5 d-flex justify-content-center text-center">Deaths in Charleston on the Eve of War</h2>
+      </div>
+    </div>
+
+<!--Exhibit Text-->
+    <!--Exhibit Content-->
+<div style="background-color: #A39a64; padding: 20px">
+ <div class="row" style="padding: 0vw 5vw">
+    <div  style="background-color:#210f04; margin:5px 0px; padding:-5px;"><h3 class="text-lg-left text-md-left text-sm-center ">Sources</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-8 col-md-8 col-sm-8">
+ <h4>Primary Sources</h4>
+ <p class="indent">CDC. “Coronavirus Disease 2019 (COVID-19).” <i>Centers for Disease Control and Prevention</i>. Last modified February 11, 2020. Accessed October 23, 2020. https://www.cdc.gov/coronavirus/2019-ncov/covid-data/investigations-discovery/hospitalization-death-by-race-ethnicity.html.</p>
+ <p class="indent">Charleston (S.C.). City Council Committee on Ordinance Concerning the Board of Health and Quarantine. <i>Report of the Committee of City Council of Charleston, upon the Epidemic Yellow Fever, of 1858.</i> Charleston: Walker, Evans, 1859. https://collections.nlm.nih.gov/catalog/nlm:nlmuid-65020640R-bk.</p>
+ <p class="indent">Charleston (S.C.)., and Frederick A. Ford. <i>Census of the City of Charleston, South Carolina, for the Year 1861.</i> Charleston: Evans & Cogswell, 1861. catalog.hathitrust.org/Record/008976131.</p>
+ <p class="indent">City of Charleston, SC Board of Health. <i>South Carolina, Charleston City Death Records, 1821-1926.</i> Database, FamilySearch.org. https://www.familysearch.org/search/collection/3477663.
+</p>
+ <p class="indent">Siegler, Kirk. “Across America, Frustrated Protesters Rally To Reopen The Economy.” <i>NPR.org</i>, April 18, 2020. Accessed November 16, 2020. https://www.npr.org/2020/04/18/837776218/across-america-frustrated-protesters-rally-to-reopen-the-economy.</p>
+ <p class="indent">United States Census Office and J. C. G. Kennedy. <i>Population of the United States in 1860; Compiled from the Original Returns of the Eighth Census under the Direction of the Secretary of the Interior by Joseph C.G. Kennedy.</i> Washington, D.C.: Government Printing Office, 1864. http://archive.org/details/populationofusin00kennrich.</p>
+ <p class="indent">SCDHEC. “TB Data & Statistics.” <i>South Carolina Department of Health and Environmental Control</i>. Accessed November 24, 2020. https://scdhec.gov/health/diseases-conditions/tuberculosis/tb-data-statistics.</p>
+ <h4>Images</h4>
+ <p class="indent">Colton, Joseph Hutchins. “The City of Savannah. The City of Charleston.” Map. 1 inch:1/2 mile. New York: G.W. and C. B. Colton, 1855. Hargarett Rare Book and Manuscript Library Rare Map Collection. https://dlg.usg.edu/record/guan_hmap_hmap1855s3. Georeferencing by Daniel Hutchinson via Map Warper. https://mapwarper.net/maps/40911</p>
+ <p class="indent">Cox, Danielle. <i>Circular Church Cemetery</i>. Photograph, October 2011. Author's personal collection.</p>
+ <p class="indent">---------- <i>Magnolia Cemetery Header Photo</i>. Photograph, 2011. Author's personal collection.</p>
+ <p class="indent">Fisher, Alvan. <i>Portrait of Charles Fraser (1782–1860)</i>. Watercolor on ivory, circa 1819. Museum of Fine Arts, Boston. Accessed November 26, 2020. https://commons.wikimedia.org/wiki/File:Alvan_Fisher_-_Portrait_of_the_American_painter_Charles_Fraser.jpg.</p>
+ <p class="indent">Greene, C. O. <i>West Point Rice Mill, Ashley River, Near Calhoun Street, Charleston.</i> Photograph, September 1940. Library of Congress. Accessed November 26, 2020. https://commons.wikimedia.org/wiki/File:West_Point_Rice_Mill,_Ashley_River,_Near_Calhoun_Street,_Charleston_(Charleston_County,_South_Carolina).jpg.</p>
+ <p class="indent">Rojas, Cristóbal. <i>La Miseria.</i> Oil on canvas, 1886. Galería de Arte Nacional, Caracas. Accessed November 26, 2020. https://commons.wikimedia.org/wiki/File:Cristobal_Rojas_37a.JPG.</p>
+ <p class="indent">Underwood and Underwood. <i>Magnolia Cemetery, Charleston S.C.</i> Stereoview card, 19th century. Accessed November 26, 2020. https://commons.wikimedia.org/wiki/File:Magnolia_Cemetery_Chapel.jpg.</p>
+ <p class="indent"><i>Aerial Photograph of the Original Hagood Football Stadium, 1939.</i> Photograph, 1939. The Citadel, The Military College of South Carolina. Accessed November 26, 2020. https://commons.wikimedia.org/wiki/File:Citadel_aerial_view_c._1939_(cropped_to_Hagood_Stadium).jpg.</p>
+ <p class="indent"><i>Charleston, S.C. Graveyard of the Ruined Circular Church</i>. Photograph, April 1865. Library of Congress. Accessed November 26, 2020. https://www.loc.gov/resource/cwpb.02366/.</p>
+<h4>Secondary Sources</h4>
+<p class="indent">“Charles Fraser (1782-1860).” <i>The Johnson Collection, LLC.</i> Accessed November 24, 2020. https://thejohnsoncollection.org/charles-fraser/.</p>
+<p class="indent">Giguere, Joy M. “Localism and Nationalism in the City of the Dead: The Rural Cemetery Movement in the Antebellum South.” <i>Journal of Southern History</i> 84, no. 4 (November 2018): 845-882.</p>
+<p class="indent">Heimer, Alyson C. “Population Pyramid.” In <i>The Gale Encyclopedia of Environmental Health</i>, edited by Jacqueline L. Longe, 2:736–737. 2nd ed. Farmington Hills, MI: Gale, 2019. Accessed November 24, 2020. https://link.gale.com/apps/doc/CX2491100220/GRNR?u=cofc_main&sid=GRNR&xid=5d0be447.</p>
+<p class="indent">Johnson, Michael P, and James L Roark. <i>No Chariot Let Down: Charleston’s Free People of Color on the Eve of the Civil War</i>. New York: W.W. Norton, 1986.</p>
+<p class="indent">Kelly, Joseph. <i>America’s Longest Siege: Charleston, Slavery, and the Slow March toward Civil War</i>. New York: The Overlook Press, 2013. http://archive.org/details/americaslongests0000kell.</p>
+<p class="indent">Lofton, Alexander Lucas and Roy Williams III. <i>Rice to Ruin: The Jonathan Lucas Family in South Carolina, 1783-1929</i>. Columbia: University of South Carolina Press, 2018.</p>
+<p class="indent">“Medical Terms And Definitions of Nineteenth Century Diseases.” <i>Tulpehocken Settlement Historical Society</i>. Accessed November 24, 2020. https://tulpehockenroots.org/diseases/.</p>
+<p class="indent">Othersen, H. Biemann. <i>Centuries of Care in Charleston County: A History of Medical Care in Charleston County, South Carolina</i>. Birmingham: Legacy Publishing, 2012.</p>
+<p class="indent">Powers, Bernard E. <i>Black Charlestonians: A Social History, 1822-1885</i>. Fayetteville: University of Arkansas Press, 1999.</p>
+<p class="indent">Scaringi, John. “Yellow Fever and the Emergence of Public Health Policy in Charleston, South Carolina.” <i>Journal of the South Carolina Medical Association</i> 110, no. 1 (April 2014): 16–19.</p>
+<p class="indent">Trinkley, Michael, Debi Hacker, and Nicole Southerland. <i>The Silence of the Dead: Giving Charleston Cemeteries a Voice</i>. Columbia: Chicora Foundation, Inc, 2010.</p>
+<p class="indent">Waller, John. <i>Health and Wellness in 19th-Century America. Health and Wellness in Daily Life.</i> Santa Barbara: Greenwood, 2014.</p>
+<p class="indent">Weiner, Marli Frances, and Mazie Hough. <i>Sex, Sickness, and Slavery: Illness in the Antebellum South.</i> Urbana: University of Illinois Press, 2012.</p>
+</div>
+      </div>
+    </div>
+
+  <!-- Footer -->
+<div class="container-fluid" style="background:#210F04">
+    <div class="row">
+      <div class="col align-bottom">
+    <p style="font-size:15px; margin:5px 0px; color: #BCAB88">Copyright ©<script>document.write(new Date().getFullYear());</script> Danielle Cox</p>
+      </div>
+      <!--ADD SOCIAL MEDIA BUTTONS-->
+      <div class="col" style="margin:10px 0px">
+        
+	<a target="_blank" href="http://www.facebook.com/share.php?u=tinyurl.com/IIExhibit">
+	<img title="Facebook" alt="Facebook" src="https://socialmediawidgets.files.wordpress.com/2014/03/02_facebook.png" width="35" height="35">
+	</a>
+	<a target="_blank" href="https://twitter.com/intent/tweet?url=tinyurl.com/IIIExhibit&text=I+just+visited+the+Inhabitants,+Illness,+and+Interments+Online+Exhibit+and+I+think...&hashtags=IIIExhibit,CharlestonHistory">
+<img title="Twitter" alt="Twitter" src="https://socialmediawidgets.files.wordpress.com/2014/03/01_twitter.png" width="35" height="35" />
+</a>
+	<a target="_blank" href="https://www.linkedin.com/in/danielle-cox-499a84106">
+	<img title="LinkedIn" alt="LinkedIn" src="https://socialmediawidgets.files.wordpress.com/2014/03/07_linkedin.png" width="35" height="35">
+	</a>
+	
+  <a href="mailto:coxda@g.cofc.edu">
+	<img title="email" alt="Email" src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/128/email-icon.png" width="35" height="35">
+	</a>
+	</div>
+    
+      </div>
+  <div class="row">
+    <div class="col">
+	<p class="justify-text-center" style="font-size:10px; color:#9F9382">I coded this website myself from scratch, so please be patient with any bugs.</p>
+</div>
+    </div>
+  </div>
+  </body>
+</html>

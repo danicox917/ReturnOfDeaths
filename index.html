@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <title>Inhabitants, Illness, and Interment</title>
+    <meta name="description" content="The Inhabitants, Illness, and Interment online exhibit project seeks to connect the past to the present through an interactive GIS project mapping Charleston city death records from 1860, exploring issues of public health, class, and demographics during a time of looming conflict across a familiar landscape.">
+    <meta name="author" content="Danielle Cox">
+    <meta name="keywords" content="Charleston, mapping, georefererencing, GIS, death, disease, illness, public health, history, Civil War, American Civil War, South Carolina, mortality, 1860, records, secession, demographics, census, medicine, pandemic, endemic, epidemic">
+    <style>
+         p {font-family: 'Merriweather', serif;
+            color:#210F04;
+        }
+        .footnotes {font-weight: normal;
+            font-family: 'Merriweather', serif;
+            color:#210F04;
+            font-size: 12px;
+            padding: 8px 0px;
+        }
+        nav {background-color: #210F04;
+        }
+        a {color: #BCAB88;
+            font-family: 'Merriweather', serif;
+        }
+        a:hover {color: #9f9382;
+            text-decoration:none;
+        }
+        h1 {color:#A39a64; 
+            text-shadow: 3px 3px 5px #210F0480, -3px -3px 5px #210F0480, -3px 3px 5px #210F0480, 3px -3px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Oswald', sans-serif;
+        }
+        h2 {color:#A39a64; 
+            text-shadow: 1px 1px 5px #210F0480, -1px -1px 5px #210F0480, -1px 1px 5px #210F0480, 1px -1px 5px #210F0480;
+            background-color:#BCAB8895;
+            margin: 0px;
+            font-family: 'Merriweather', serif;
+        }
+        h3 {color: #BCAB88;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Oswald', sans-serif;
+        }
+        h4 {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+        }
+        tr{border: 2px solid #675226}
+        th {color: #210F04;
+            font-family: 'Oswald', sans-serif;
+            padding: 2px 20px 0px 0px;
+        }
+        td {color:#210F04;
+            font-family: 'Merriweather', serif;
+        }
+        .exhibitTitle {
+            background-color: #210F04;
+            height: 100%;
+            text-align: center;
+            margin: 0px 2px;
+            border-radius: 10px 10px 0px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-tabs > li > a:focus{
+            color:#210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .nav-tabs > li > a:active{
+            color: #210F04 !important;
+            background-color: #9f9382 !important;
+        }
+        .scroll {
+            max-height: 66vh;
+            overflow-y: auto;
+        }
+        .shadow {
+            position: relative;
+            z-index: 10;
+            box-shadow: 10px 10px black;
+        }
+        indent{
+            text-indent: -36px; 
+            padding-left: 36px;
+        }
+    </style>
+  </head>
+  
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-md">
+  <a class="navbar-brand" href="/index.html"><div class="align-content-center" style="margin:-8px; font-size: 28px font-family: 'Oswald', sans-serif;"><!--Insert SVG here if you want one-->HIST 525: Introduction to Public History</div></a>
+      <!-- MAKE SURE THIS TOGGLE SHIT WORKS-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end"  id="navbarNav">
+    <ul class="navbar-nav" >
+      <li class="nav-item active">
+        <a class="nav-link" href="/index.html">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/about.html">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sources.html">Sources</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    
+    <!-- Top Intro Portion -->
+    <div class="jumbotron jumbotron-fluid" style="background-image:url('/images/header.jpeg'); background-color: #cccccc;
+  width:100%;background-position:center center; background-repeat: no-repeat; background-size:cover; margin-bottom:0px;">
+      <div class="container justify-content-center align-content-center justify">
+        <div class="d-flex justify-content-center"><!--Insert SVG here if you want one--></div>
+        <h1 class="display-3 d-flex justify-content-center text-center" >Inhabitants, Illness, and Interment</h1>
+        <h2 class="display-5 d-flex justify-content-center text-center">Deaths in Charleston on the Eve of War</h2>
+      </div>
+    </div>
+
+    <!-- Map and Text -->
+    <div class="row no-gutters justify-content-center" style="height=90vh; background-color:#210f04">
+      <div class="accordion col-lg-4 col-md-4 col-sm-12" id="accordionExample" style="background-color:#210f04;" >
+  <div class="card">
+      <button class="btn btn-link btn-block text-left" style="padding:0px; text-decoration:none; background-color:#210f04; border-radius: 0px;" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <div id="headingOne" class="shadow">
+      <h3 class="mb-0 shadow">
+          About This Exhibit
+      </h3>
+    </div>
+</button>
+    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body scroll" style="color: #210f04; background-color: #A39a64;">
+        <p><strong>Warning: This exhibit features content related to death, disease, and violence, including involving children and enslaved persons. Minors and individuals sensitive to these topics should proceed with discretion.</strong></p>
+		<p>The map to the right features information about over 1,400 individuals who passed away in the City of Charleston in the year 1860. We'd like you, their modern-day neighbors, to meet them.</p>
+		<p>The year 1860 is featured because it a precipice for the history of the country and of Charleston. Two years earlier a yellow fever epidemic swept through the city, which physicians and other citizens were still grappling with along with the other diseases and perils constant to 19th-century life. By the end of the year South Carolina would no longer consider itself a part of the United States, and as the first state to secede and the future site of the first battle of the Civil War, Charlestonians were as keenly aware as anyone of the ramifications of national politics. And yet still the constants of everyday life carried on, including the "great equalizer" of death. </p>
+		<p>Besides the basic data of name, date, and cause of death, city health officials recorded what they considered to be the most important information about each person, including burial place, gender, race, enslavement status and name of enslaver, age, occupation, birthplace, street where they lived, and the name of their physician. We've included all the data given and presented it in a way that allows you to see trends and correlations and ask new questions about life in Charleston during this time.</p>
+        <p>Perhaps more than any time since 1860, right now we know what it's like to see Charleston in the midst of disease and unrest. And like our counterparts of 160 years ago, we continue to love and grieve and carry on. Maybe on the street where you grew up or around the corner from your favorite restaurant, people just like you lived and died and were a part of the ongoing story of the city. We hope you'll be able to see something of yourself in them, and see yourself as a part of that story too.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+      <button style="padding:0px; text-decoration:none; background-color:#210f04;border-radius: 0px;" class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    <div id="headingTwo">
+      <h3 class="mb-0">
+          Using the Map
+      </h3>
+    </div>
+    </button>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body scroll" style="color: #210f04; background-color: #A39a64">
+          <p>Click on each point to see information on the individual it represents. For larger points representing multiple people, click "Browse Features" and then use the left and right arrows at the top of the popup to scroll through each person. Please note that terms used correspond to information given in the records and some, like "mulatto," may not be appropriate for modern use.</p>
+          <p>The map that overlays the peninsula is from 1855, please see "Sources" for more information.</p>
+          <p>The green shapes are burial places listed in the records. Click on them for more information and to scroll through individuals interred there.</p>
+          <div style="background: #210F04; height:40px; width:40px; border-radius:10px; padding:8px; margin: 10px 0px"><img title="Filter" alt="Filter" src="https://learn-students.maps.arcgis.com/apps/webappviewer/widgets/Filter/images/icon.png?wab_dv=2.18" width="25" height="25"></div>
+        <p><b>Filter:</b> You can filter points on the map based on categories of your choosing, or use one of the preset options. Filters that you set are compoundable, so for example you can show just women, just white people, or just white women. For most categories you can also select more than one attribute, for example only showing people buried at Magnolia Cemetery or the Public Cemetery. Preset filters correspond to information given in the tabs below. The filter is defaulted to off, so be sure to toggle it on after choosing your criteria to see the results.</p>
+        <div style="background: #210F04; height:40px; width:40px; border-radius:10px; padding:8px; margin: 10px 0px"><img title="Time Slider" alt="Time Slider" src="https://learn-students.maps.arcgis.com/apps/webappviewer/widgets/TimeSlider/images/icon.png?wab_dv=2.18" width="25" height="25"></div>
+        <p><b>Time Slider:</b> This shows a progressive time lapse of deaths throughout the year. This can be used in conjunction with filters, for example with a specific disease to show its spread across the city over time.</p>
+        <div style="background: #210F04; height:40px; width:40px; border-radius:10px; padding:8px; margin: 10px 0px"><img title="Legend" alt="Legend" src="https://learn-students.maps.arcgis.com/apps/webappviewer/widgets/Legend/images/icon.png?wab_dv=2.18" width="25" height="25"></div>
+        <p><b>Legend:</b> The colors of the data points represent the race of the person in the record, while the size of the point reflects the number of records for that location. As the records only record the street on which the person lived, not the exact house number, individuals living on the same street overlap and require a visual representation to show more than one person. This means that the exact location where each person lived will be more accurate on shorter streets like Henrietta Street, and less so on longer ones like King Street. Only a handful of records correspond to a precise location, like Roper Hospital or the Alms House. Grey indicates a group of people on the same street with no race in the majority. If you zoom in or out, the size of the clusters and the number of points clustered together will adjust. </p>
+        <div style="background: #210F04; height:40px; width:40px; border-radius:10px; padding:8px; margin: 10px 0px"><img title="Layers" alt="Layers" src="https://learngis2.maps.arcgis.com/apps/webappviewer/widgets/LayerList/images/icon.png?wab_dv=2.18" width="25" height="25"></div>
+        <p><b>Layers:</b> Select this to toggle different layers on and off. For example, to see burial places without the data points, uncheck "Deaths 1860."</p>
+        <div style="background: #210F04; height:40px; width:40px; border-radius:10px; padding:8px; margin: 10px 0px"><img title="Swipe" alt="Swipe" src="https://learngis2.maps.arcgis.com/apps/webappbuilder/stemapp/widgets/Swipe/images/icon.png?wab_dv=2.18" width="25" height="25"></div>
+        <p><b>Swipe:</b> Select this to easily compare modern locations with historic ones. Move the line across the screen and the 1855 map's visibility will change.</p>
+       
+      </div>
+    </div>
+  </div>
+  <div class="card">
+      <button style="padding:0px; text-decoration:none; background-color:#210f04; border-radius: 0px;" class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+    <div id="headingThree">
+      <h3 class="mb-0">
+          Ideas to Consider
+      </h3>
+    </div>
+    </button>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body scroll" style="color: #210f04; background-color: #A39a64">
+          <a target="_blank" href="http://www.facebook.com/share.php?u=tinyurl.com/IIExhibit">
+	<img title="Facebook" alt="Facebook" src="https://socialmediawidgets.files.wordpress.com/2014/03/02_facebook.png" width="35" height="35">
+	</a>
+	<a target="_blank" href="https://twitter.com/intent/tweet?url=tinyurl.com/IIIExhibit&text=I+just+visited+the+Inhabitants,+Illness,+and+Interments+Online+Exhibit+and+I+think...&hashtags=IIIExhibit,CharlestonHistory">
+<img title="Twitter" alt="Twitter" src="https://socialmediawidgets.files.wordpress.com/2014/03/01_twitter.png" width="35" height="35" />
+</a>
+        <p>Share your thoughts on twitter or facebook using the links above and by using the hashtag #IIIExhibit. Also be sure to complete our <a style="color: #675226" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSeesJlXfxx6W6QWxIGJcXJVQpRdWM8H-JwqEt3TUR1TiSw5Uw/viewform?usp=sf_link">visitor satisfaction survey.</a></p>
+        <p>To help spark conversation and give you food for thought, we've put together a few questions to consider while you explore this exhibit.</p> 
+        <ul style="font-family: 'Merriweather', serif;
+            color:#210F04;">
+            <li>What filter category seems most interesting to you? Burial place? Race? Occupation?
+	        </li><li>Do any of these individuals seem like they could be related to each other? What story does that suggest to us?
+            </li><li>Who lived on streets where you live, work, or have visited?
+        	</li><li>Do you notice any trends over time or space? By demographic? 
+	        </li><li>Are Black people more than, less than, or equally affected by illness as white people according to this data? Are children or adults?
+	        </li><li>Did your family live in Charleston during this time? Could any of them be included in these records?
+	        </li><li>Is there any information missing from these records? Anything that we can read "in between the lines?"
+	        </li><li>If you were living in Charleston in 1860, where would you have lived and what would your life have been like? Do you recognize aspects of yourself in any of the individuals in this data?
+        	</li><li>Are any strong or unexpected feelings brought up by any of this information? Do you need to step away for a moment?
+        	</li><li>What were your preconceptions before exploring this information, and after?
+	        </li><li>Does anything remind you of your community today, your neighbors or the social/political situation you live in?
+        	</li><li>Are there any aspects of this information you'd like to learn more about?</li>
+
+        </ul>
+      </div>
+    </div>
+</div>
+  </div>
+  <div class="col-lg-8 col-md-8 col-sm-12" style="height:90vh; background-color:#210f04">
+ <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;" frameborder="0" scrolling="no" allowfullscreen src="https://arcg.is/1LT0rS"></iframe>
+  </div>
+</div>
+    </div>
+<!--Exhibit Text-->
+<nav class="navbar navbar-expand-md" style="background-color:#675226; padding: 10px 10px 0px 10px">
+  
+      <!-- MAKE SURE THIS TOGGLE SHIT WORKS-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+    <ul class="nav-tabs nav nav-justified">
+      <li class="nav-item" >
+        <a data-toggle="tab" class="nav-link exhibitTitle" tabindex="1" href="#exhibitText1" style= "border-radius: 15px 15px 0px 0px;">Race and Politics</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link exhibitTitle" tabindex="1" href="#exhibitText2" style= "border-radius: 15px 15px 0px 0px;">Names from the Records</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link exhibitTitle" href="#exhibitText3" style= "border-radius: 15px 15px 0px 0px;">Burial Places in Charleston</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link exhibitTitle" href="#exhibitText4"style= "border-radius: 15px 15px 0px 0px;">Top Causes of Death</a>
+      </li>
+      <li class="nav-item">
+        <a data-toggle="tab" class="nav-link exhibitTitle" href="#exhibitText5" style= "border-radius: 15px 15px 0px 0px;">Charleston, Then and Now</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+    <!--Exhibit Content-->
+<div class="tab-content" style="background-color: #A39a64; padding: 20px">
+  <div id="exhibitText1" class="container-fluid tab-pane fade active show"><div class="row" style="padding: 0vw 5vw">
+    <div class="col-lg-4 col-md-4 col-sm-11 shadow" style="background-color:#210f04; margin:5px 0px; padding:-5px; box-shadow: 10px 10px black;"><h3 class="text-lg-left text-md-left text-sm-center shadow">Race and Politics</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-7 col-md-6 col-sm-11">
+    <p>What kind of city were these individuals living in the year they died? The federal government undertook a nationwide census in 1860, and the city of Charleston conducted its own local census in 1861, which gives us the information provided in Figures 1 through 3.<sup>1</sup> The United States, South Carolina, and Charleston all feature what demographers call “Expansive Population Pyramids,” which suggest a high birth rate, high population growth, and low life expectancies typical of a less economically developed areas.<sup>2</sup> By comparing Charleston to the greater US, we can see a city that is particularly diverse, with white people making up slightly more than half the population. However South Carolina in general was around 40% white, most likely due to the large slaveholding plantations located in rural areas outside of the city.</p>
+<p>With these racial divisions and intersections came a variety of attitudes about the coming war. Many enslaved people in urban Charleston became more open in their disregard for white oppression, much to the chagrin of disgruntled slaveholders.<sup>3</sup> For white male leaders, April brought the National Democratic Convention to Charleston to nominate Lincoln’s opponent, Stephen Douglas, and to argue about the place of slavery within an increasingly divided party.<sup>4</sup> Eight months later, as the Ordinance of Secession was signed and shared throughout the city, the “fire-eaters” who valued slavery over union erupted into enthusiastic celebration, while the less-devoted secessionists, including the diarist Mary Boykin Chestnut, grew more anxious about the coming violence.<sup>5</sup> Free people of color, meanwhile, were caught between racial and familial ties to the enslaved, their status as free persons, and suspicions of disloyalty by white neighbors.<sup>6</sup> This racial element was even more complicated for the high number of free persons who were mixed race.<sup>7</sup> Concerned about their fate in the coming upheaval, many threw their lot in with the secessionists to protect themselves and their social standing.<sup>8</sup>
+</p>
+<p>Charleston was on a precipice by the end of the year, only four months away from the first shots on Fort Sumter. But for now, in 1860, the cannons are silent still, haven’t yet vocalized the anxiety of a nation. City inhabitants go about their business as always, and the rising tensions do nothing to stop the routine of life and of death. It is the last moments of a world that will never truly exist again.</p>
+<hr>
+<div class="footnotes"><sup>1 </sup>Charleston (S.C.). and Frederick A. Ford, <i>Census of the City of Charleston, South Carolina, for the Year 1861</i> (Charleston: Evans & Cogswell, 1861), 10-14.; United States Census Office and J. C. G. Kennedy, <i>Population of the United States in 1860; Compiled from the Original Returns of the Eighth Census under the Direction of the Secretary of the Interior</i> (Washington, D.C.: Govt. Print. Off, 1864), 592-595.; City of Charleston, SC Board of Health, <i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 350-410. https://www.familysearch.org/search/catalog/3477663.</div>
+<div class="footnotes"><sup>2 </sup>Alyson C. Heimer, “Population Pyramid,” in <i>The Gale Encyclopedia of Environmental Health</i>, ed. Jacqueline L. Longe, 2nd ed., vol. 2 (Farmington Hills, MI: Gale, 2019), 736–737, accessed November 24, 2020, https://link.gale.com/apps/doc/CX2491100220/GRNR?u=cofc_main&sid=GRNR&xid=5d0be447.</div>
+<div class="footnotes"><sup>3 </sup>Bernard E. Powers, <i>Black Charlestonians: A Social History, 1822-1885</i> (Fayetteville: University of Arkansas Press, 1999), 33-34.</div>
+<div class="footnotes"><sup>4 </sup>Joseph Kelly, <i>America’s Longest Siege: Charleston, Slavery, and the Slow March toward Civil War</i> (New York, NY: The Overlook Press, 2013), 269.</div>
+<div class="footnotes"><sup>5 </sup>Kelly, <i>America’s Longest Siege</i>, 284.</div>
+<div class="footnotes"><sup>6 </sup>Powers, <i>Black Charlestonians</i>, 63.</div>
+<div class="footnotes"><sup>7 </sup>Powers, <i>Black Charlestonians</i>, 38.</div>
+<div class="footnotes"><sup>8 </sup>Powers, <i>Black Charlestonians</i>, 65-66.</div>
+</div>
+
+ <div class="col-lg-4 col-md-5 col-sm-11">
+   <div><img src="https://returnofdeaths.000webhostapp.com/images/Country.png" data-toggle="modal" data-target="#Ex1Fig1" class="img-fluid" alt="A population pyramid for the United States, 1860"><div class="footnotes text-center"><i>Figure 1, click to enlarge</i></div></div>
+<div><img src="https://returnofdeaths.000webhostapp.com/images/State.png" data-toggle="modal" data-target="#Ex1Fig2" class="img-fluid" alt="A population pyramid for the state of South Carolina, 1860"><div class="footnotes text-center"><i>Figure 2, click to enlarge</i></div></div>
+<div><img src="https://returnofdeaths.000webhostapp.com/images/City.png" data-toggle="modal" data-target="#Ex1Fig3" class="img-fluid" alt="A population pyramid for the city of Charleston, 1861"><div class="footnotes text-center"><i>Figure 3, click to enlarge</i></div></div>
+<div><img src="https://returnofdeaths.000webhostapp.com/images/Death%20Records.png" data-toggle="modal" data-target="#Ex1Fig4" class="img-fluid" alt="A population pyramid for the city of Charleston Death Records, 1860"><div class="footnotes text-center"><i>Figure 4, click to enlarge</i></div></div>
+</div></div></div>
+   <div class="modal fade" id="Ex1Fig1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/Country.png" class="img-fluid" alt="A population pyramid for the United States, 1860">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex1Fig2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/State.png" class="img-fluid" alt="A population pyramid for the state of South Carolina, 1860">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex1Fig3" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/City.png" class="img-fluid" alt="A population pyramid for the City of Charleston, 1861">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex1Fig4" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/Death%20Records.png" class="img-fluid" alt="A population pyramid for the city of Charleston Death Records, 1861">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div id="exhibitText2" class="container-fluid tab-pane fade"><div class="row" style="padding: 0vw 5vw">
+    <div class="col-lg-4 col-md-4 col-sm-11 shadow" style="background-color:#210f04; margin:5px 0px; padding:-5px; box-shadow: 10px 10px black;"><h3 class="text-lg-left text-md-left text-sm-center shadow">Names from the Records</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-7 col-md-6 col-sm-11">
+    <p>Given here are a few details about a handful of individuals mapped from the Return of Death records. Together they represent a small sample of the spectrum of Charleston society, enslaved, free, male, female, young, and old.</p><div style="padding:0vw 3vw">
+    <h4>Charles Fraser</h4>
+        <p>A Charleston native and lawyer, Charles Fraser would ultimately become best known as a painter of miniature portraits, and to a lesser extent landscapes and illustrations for travel guides.<sup>1</sup> He spoke at the dedication ceremony for the opening of Magnolia Cemetery in 1850, discussing the health and sanitation benefits of burial outside of urban areas.<sup>2</sup> When he passed away at the age of 78 in October 1860, he was buried at St. Michael’s Church in the heart of downtown Charleston.<sup>3</sup> His works can be seen in art collections throughout the country, and many can be seen locally at the <a style="color:#675226" href="https://www.gibbesmuseum.org/miniatures/fraser-book/">Gibbes Museum.</a></p>
+    <h4>Charles, Abel, Levy, Clara, and Margaret - Slaves of West Point Mill</h4>
+    <p>As a result of financial difficulties, in March 1860 the Lucas family of Charleston was forced to sell the West Point Rice Mill to a group of investors.<sup>4</sup> Built along the Ashley River by Jonathan Lucas III in 1840, and once producing up to 40% of Charleston’s rice, it burned to the ground in November 1860, eight months after its sale.<sup>5</sup> Five entries in the Return of Death records list the West Point Mills Association as an enslaver, all with dates from April 30 to October 25 of 1860.<sup>6</sup> The two girls, Clara and Margaret, were one year old children, while Charles, Abel, and Levy were laborers aged 35, 19, and 18, respectively.<sup>7</sup> As the new owners sold off two male slaves aged 45 and 55 immediately after purchasing the mill, it’s possible that these men and others enslaved with them were retained for their relative youth and ability to work.<sup>8</sup> The advertisement posted for the mill in late 1859 lists as one of its assets “The accommodation for the operatives consist[ing] of 15 Houses, the majority of them having been lately put up. These afford sufficient room for the hands working the establishment.”<sup>9</sup> The presence of Clara and Margaret suggests that these did not only house workers enslaved for milling rice and its associated tasks, but also mothers and children. How these people were affected and where they lived after the mill’s burning is unclear, but the West Point Rice Mill continued in operation until 1912 so it is likely they returned and continued to be enslaved there until emancipation in 1863.<sup>10</sup></p>
+    <h4>Ellen Hampton</h4>
+    <p>Ellen, a 25 year old mantua (dress) maker, passed away of consumption in May 1860.<sup>11</sup> She was a free woman of color who lived on what is now Kirkland Lane with her brother Benjamin, mother Daphne, and Benjamin’s wife Sarah.<sup>12</sup> Like Ellen, Benjamin and Sarah were involved in the garment industry, with Benjamin employed as a tailor and Sarah a milliner.<sup>13</sup> The family had this in common with many of Charleston’s other “brown aristocrats,” or wealthy free people of color, who were often skilled laborers and craftsmen living in urban areas.<sup>14</sup> Ellen was engaged to Edward White, a carpenter living on the same street who had previously lost a wife in childbirth.<sup>15</sup> Two days after her death a neighbor wrote that Edward was “much affected.”<sup>16</sup> She is buried in the Brown Fellowship Association Cemetery.<sup>17</sup></p></div>
+    <p>So why, among all the heightened drama taking place in Charleston during this time, do we care about the people listed here? These individuals represent only a few for whom enough information could be found to describe their lives in just slightly more detail. For many, if not most, we know very little about them besides the data reported in the city’s Return of Death records. Many of their headstones are gone or worn smooth by now, the names of their friends and spouses, parents and children perhaps forgotten. Their family alive today, if they have any, may still be in Charleston or scattered throughout the country or the world. Probably few of their descendants ever think of them. Do you know the names of your ancestors who lived or died 160 years ago?</p>
+    <p>In short, we care because their lives were very ordinary, their deaths sadly common for their time. We care about them because they were part of a whole, in the same way that you or anyone else makes up a part of a community as they deal with the routines and constants of life in a historic time of disease and unrest. Perhaps a Charlestonian in 1860 may have found that situation relatable.</p>
+    <hr>
+<div class="footnotes"><sup>1 </sup>“Charles Fraser (1782-1860),” <i>The Johnson Collection, LLC</i>, accessed November 24, 2020, https://thejohnsoncollection.org/charles-fraser/.</div>
+<div class="footnotes"><sup>2 </sup>Joy M. Giguere, “Localism and Nationalism in the City of the Dead: The Rural Cemetery Movement in the Antebellum South,” <i>Journal of Southern History</i> 84, no. 4 (November 2018): 868.</div>
+<div class="footnotes"><sup>3 </sup>Charles Fraser, 5 October 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 396. https://www.familysearch.org/search/catalog/3477663.</div>
+<div class="footnotes"><sup>4 </sup>Alexander Lucas Lofton and Roy Williams III, <i>Rice to Ruin: The Jonathan Lucas Family in South Carolina, 1783-1929</i> (Columbia, South Carolina: University of South Carolina Press, 2018), 114-116.</div>
+<div class="footnotes"><sup>5 </sup>Lofton and Williams, <i>Rice to Ruin</i>, 108-119.</div>
+<div class="footnotes"><sup>6 </sup>Margaret, 30 April 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 368. https://www.familysearch.org/search/catalog/3477663.; Charles, 30 May 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 372. https://www.familysearch.org/search/catalog/3477663.; Clara, 24 September 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 392. https://www.familysearch.org/search/catalog/3477663.; Levy, 1 October 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 395. https://www.familysearch.org/search/catalog/3477663.; Abel, 25 October 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 400. https://www.familysearch.org/search/catalog/3477663.</div>
+<div class="footnotes"><sup>7 </sup>Margaret, 30 April 1860<i>Charleston City Death Records.</i>; Charles, 30 May 1860<i>Charleston City Death Records.</i>; Clara, 24 September 1860<i>Charleston City Death Records.</i>; Levy, 1 October 1860<i>Charleston City Death Records.</i>; Abel, 25 October 1860<i>Charleston City Death Records.</i></div>
+<div class="footnotes"><sup>8 </sup>Lofton and Williams, <i>Rice to Ruin</i>, 116.</div>
+<div class="footnotes"><sup>9 </sup>Lofton and Williams, <i>Rice to Ruin</i>, 116.</div>
+<div class="footnotes"><sup>10 </sup>Lofton and Williams, <i>Rice to Ruin</i>, 119.</div>
+<div class="footnotes"><sup>11 </sup>Ellen M.S. Hampton, 3 May 1860<i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 368. https://www.familysearch.org/search/catalog/3477663.</div>
+<div class="footnotes"><sup>12 </sup>Michael P Johnson and James L Roark, <i>No Chariot Let Down: Charleston’s Free People of Color on the Eve of the Civil War</i>(New York: W.W. Norton, 1986), 62-63.</div>
+<div class="footnotes"><sup>13 </sup>Johnson and Roark, <i>No Chariot Let Down</i>, 66.</div>
+<div class="footnotes"><sup>14 </sup>Johnson and Roark, <i>No Chariot Let Down</i>, 3.</div>
+<div class="footnotes"><sup>15 </sup>Johnson and Roark, <i>No Chariot Let Down</i>, 62-63.</div>
+<div class="footnotes"><sup>16 </sup>Johnson and Roark, <i>No Chariot Let Down</i>, 62-63.</div>
+<div class="footnotes"><sup>17 </sup>Ellen M.S. Hampton, 3 May 1860, <i>Charleston City Death Records.</i></div>
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-11">
+   <div><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Alvan_Fisher_-_Portrait_of_the_American_painter_Charles_Fraser.jpg" data-toggle="modal" data-target="#Ex2Fig1" class="img-fluid" alt="A Painting of Charles Fraser"><div class="footnotes text-center">Alvan Fisher, <i>Portrait of Charles Fraser (1782–1860)</i>, watercolor  on  ivory, circa 1819, Museum of Fine Arts, Boston.<br><i>Click to enlarge.</i></div></div>
+<div><img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/West_Point_Rice_Mill%2C_Ashley_River%2C_Near_Calhoun_Street%2C_Charleston_%28Charleston_County%2C_South_Carolina%29.jpg" data-toggle="modal" data-target="#Ex2Fig2" class="img-fluid" alt="West Point Mill, 1940."><div class="footnotes text-center">C. O. Greene, <i>West Point Rice Mill, Ashley River, Near Calhoun Street, Charleston</i>, Photograph, September 1940, Library of Congress.<br><i>Click to Enlarge</i></div></div>
+</div></div></div>
+   <div class="modal fade" id="Ex2Fig1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Alvan_Fisher_-_Portrait_of_the_American_painter_Charles_Fraser.jpg" class="img-fluid" alt="A Painting of Charles Fraser">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex2Fig2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/West_Point_Rice_Mill%2C_Ashley_River%2C_Near_Calhoun_Street%2C_Charleston_%28Charleston_County%2C_South_Carolina%29.jpg" class="img-fluid" alt="West Point Mill, Charleston">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+ <div id="exhibitText3" class="container-fluid tab-pane fade"><div class="row" style="padding: 0vw 5vw">
+    <div class="col-lg-4 col-md-4 col-sm-11 shadow" style="background-color:#210f04; margin:5px 0px; padding:-5px; box-shadow: 10px 10px black;"><h3 class="text-lg-left text-md-left text-sm-center shadow">Burial Places in Charleston</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-7 col-md-6 col-sm-11">
+    <p>Urban dwellers of the early- to mid-nineteenth century, encouraged by the need for space in newly-industrial city centers, as well as the fear of contagion from the dead, began participating in the “rural cemetery movement.”<sup>1</sup> Instead of the cloistered church graveyards popular up to this point, rural cemeteries located outside of town limits catered to a new visual preference: rolling hills, open fields, trees balefully arching over creeks and tranquil lakes. Sweeping disease outbreaks of the 1850s, including Charleston’s 1858 yellow fever epidemic, highlighted the push by cities to enforce burial outside of population centers.<sup>2</sup> Of the 1401 death record entries that contain burial place information, around 497, or 35%, were in rural burial grounds like Magnolia Cemetery or St. Lawrence Cemetery.<sup>3</sup></p>
+    <p>By far the most popular single burial place was the Potter’s Field, also known as the Public Cemetery, with 212 or 15% of listed burials.<sup>4</sup> In 1860 most people interred there were black, male, and an average of 26 years old (or 42 excluding those listed as “minors”).<sup>5</sup> A place for “Charleston indigents, both black and white,” it was used until 1927 and currently rests under part of the Johnson Hagood Stadium.<sup>6</sup></p>
+    <p>The locations of the burial places as plotted on this map are derived from <i>The Silence of the Dead: Giving Charleston Cemeteries A Voice</i>, a result of the extensive work of the Chicora Foundation. Many no longer exist today, victims of time and urban sprawl. Because the names of  several of these burial grounds could refer to different locations, such as the ever popular “First Baptist Church,” or a single location could go by a number of different names, the locations they have been placed on the above map is based on best guess, and generally reflects the distributions of interments as far as existing information allows.<sup>32</sup></p>
+    <hr>
+<div class="footnotes"><sup>1 </sup>Joy M. Giguere, “Localism and Nationalism in the City of the Dead: The Rural Cemetery Movement in the Antebellum South,” <i>Journal of Southern History</i> 84, no. 4 (November 2018): 851-853.</div>
+ <div class="footnotes"><sup>2 </sup>Giguere, “Localism and Nationalism in the City of the Dead", 860.</div>   
+ <div class="footnotes"><sup>3 </sup>City of Charleston, SC Board of Health, <i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 350-410. https://www.familysearch.org/search/catalog/3477663.</div>
+  <div class="footnotes"><sup>4 </sup>City of Charleston, SC Board of Health, <i>Charleston City Death Records</i>.</div>
+   <div class="footnotes"><sup>5 </sup>City of Charleston, SC Board of Health, <i>Charleston City Death Records</i>.</div>
+    <div class="footnotes"><sup>6 </sup>Michael Trinkley, Debi Hacker, and Nicole Southerland, <i>The Silence of the Dead: Giving Charleston Cemeteries a Voice</i>, (Columbia, SC: Chicora Foundation, Inc, 2010), 164-169.</div>
+    <div class="footnotes"><sup>7 </sup>Trinkley, Hacker, and Southerland, <i>The Silence of the Dead</i>, 1-2.</div></div>
+    <div class="col-lg-4 col-md-5 col-sm-11">
+   <div><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Magnolia_Cemetery_Chapel.jpg" data-toggle="modal" data-target="#Ex3Fig1" class="img-fluid" alt="Stereograph of Magnolia Cemetery Chapel"><div class="footnotes text-center">Underwood and Underwood, <i>Magnolia Cemetery, Charleston S.C.</i>, Stereoview card, 19th century.<br><i>Click to enlarge.</i></div></div>
+<div><img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Citadel_aerial_view_c._1939_%28cropped_to_Hagood_Stadium%29.jpg" data-toggle="modal" data-target="#Ex3Fig2" class="img-fluid" alt="Original Johnson Hagood Stadium, 1939."><div class="footnotes text-center"><i>Aerial Photograph of the Original Hagood Football Stadium</i>, 1939, The Citadel.<br><i>Click to Enlarge</i></div></div>
+</div></div></div>
+   <div class="modal fade" id="Ex3Fig1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Magnolia_Cemetery_Chapel.jpg" class="img-fluid" alt="Chapel at Magnolia Cemetery">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex3Fig2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Citadel_aerial_view_c._1939_%28cropped_to_Hagood_Stadium%29.jpg" class="img-fluid" alt="A population pyramid for the United States, 1860">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div id="exhibitText4" class="container-fluid tab-pane fade"><div class="row" style="padding: 0vw 5vw">
+    <div class="col-lg-4 col-md-4 col-sm-11 shadow" style="background-color:#210f04; margin:5px 0px; padding:-5px; box-shadow: 10px 10px black;"><h3 class="text-lg-left text-md-left text-sm-center shadow">Top Causes of Death</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-7 col-md-6 col-sm-11">
+    <p>Even without the looming war, the mid-nineteenth century was a tumultuous time in which to live. Inhabitants of Charleston and the South as a whole, with its warm humidity and accompanying mosquitos, were particularly vulnerable to tropical diseases like dysentery, typhoid, malaria, and yellow fever, along with the usual range of infection like smallpox and tuberculosis common in this time.<sup>1</sup> The Charleston medical community was particularly preoccupied with yellow fever, which had killed around six hundred people in an 1854 outbreak and another seven hundred in 1858.<sup>2</sup></p>
+    <p>The spread and deadliness of this disease and other infections were not helped by the state of medical knowledge, which still depended on the miasma theory that bad smells spread illness. In regards to yellow fever, the City Council concluded in 1859 that “The noxious emanations of hundreds of cow-yards [as well as privy vaults, burial places, sewers, and drains,] on a hot summer’s morning, which taint the surrounding atmosphere, must be prejudicial to health.”<sup>3</sup> Professional medical care was often a luxury of the white and wealthy, though some methods (a result of often inconsistent or incomplete medical education) could involve bloodletting, leeches, induced vomiting, or medications ranging from horseradish to mercury to opium.<sup>4</sup></p>
+    <p>Listed below are the top ten causes of death given in the 1860 Return of Death records. To give some perspective, Charleston County had only six cases of tuberculosis in 2019, a testament to advances in medical knowledge and treatment access.<sup>5</sup> Descriptions of these diseases and others listed in the records can be found <a style="color:#675226" href="https://tulpehockenroots.org/diseases/">here.</a><sup>6</sup></p>
+    <table>
+  <tr>
+    <th>Disease</th>
+    <th>Count</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Consumption</td>
+    <td>145</td>
+    <td>A lung disease also known as tuberculosis or TB. Known as consumption for its tendency to “consume” or waste away at the body, or cause dangerous weight loss.</td>
+  </tr>
+  <tr>
+    <td>Old Age</td>
+    <td>99</td>
+    <td>Death from natural causes due to aging.</td>
+  </tr>
+  <tr>
+    <td>Trismus Nascentium</td>
+    <td>70</td>
+    <td>A type of tetanus in infants, often caused by infection from birth.</td>
+  </tr>
+  <tr>
+    <td>Typhoid Fever</td>
+    <td>64</td>
+    <td>Fever acquired from consuming tainted food or drink containing the bacteria Salmonella typhi.</td>
+  </tr>
+  <tr>
+    <td>Marasmus</td>
+    <td>56</td>
+    <td>Malnutrition primarily in children, often a symptom of another disease such as consumption.</td>
+  </tr>
+  <tr>
+    <td>Convulsions</td>
+    <td>55</td>
+    <td>Seizures, often caused by epilepsy.</td>
+  </tr>
+  <tr>
+    <td>Pneumonia</td>
+    <td>47</td>
+    <td>Lung inflammation caused by infection.</td>
+  </tr>
+  <tr>
+    <td>Teething</td>
+    <td>47</td>
+    <td>Children often acquired infections when their teeth began erupting, leading to death.</td>
+  </tr>
+  <tr>
+    <td>Congestion of the Lungs</td>
+    <td>44</td>
+    <td>An accumulation of fluids in the lungs due to infection.</td>
+  </tr>
+  <tr>
+    <td>Dropsy</td>
+    <td>44</td>
+    <td>Heart failure caused by fluid accumulation on organs. Often a symptom of another disease.</td>
+  </tr>
+  <tr>
+    <th>Total Deaths from Top 10</th>
+    <th>671</th>
+    <th>46%</th>
+  </tr>
+</table>
+<hr>
+<div class="footnotes"><sup>1 </sup>John Waller, <i>Health and Wellness in 19th-Century America, Health and Wellness in Daily Life</i> (Santa Barbara: Greenwood, 2014), 2-3.</div>
+<div class="footnotes"><sup>2 </sup>H. Biemann Othersen, <i>Centuries of Care in Charleston County: A History of Medical Care in Charleston County, South Carolina</i>, (Birmingham: Legacy Publishing, 2012), 8.</div>
+<div class="footnotes"><sup>3 </sup>Charleston City Council Committee on Ordinance Concerning the Board of Health and Quarantine, <i>Report of the Committee of City Council of Charleston, upon the Epidemic Yellow Fever, of 1858</i>(Charleston: Walker, Evans, 1859), 20-21.</div>
+<div class="footnotes"><sup>4 </sup>John Scaringi, “Yellow Fever and the Emergence of Public Health Policy in Charleston, South Carolina,” <i>Journal of the South Carolina Medical Association</i> 110, no. 1 (April 2014): 16-17.
+    </div>
+    <div class="footnotes"><sup>5 </sup>“TB Data & Statistics,” <i>South Carolina Department of Health and Environmental Control</i>, accessed November 24, 2020, https://scdhec.gov/health/diseases-conditions/tuberculosis/tb-data-statistics.</div>
+    <div class="footnotes"><sup>6 </sup>“Medical Terms And Definitions of Nineteenth Century Diseases,” <i>Tulpehocken Settlement Historical Society</i>, accessed November 24, 2020, https://tulpehockenroots.org/diseases/.</div>
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-11">
+   <div><img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Cristobal_Rojas_37a.JPG" data-toggle="modal" data-target="#Ex4Fig1" class="img-fluid" alt="Painting of a man at a woman's sickbed"><div class="footnotes text-center">Cristóbal Rojas, <i>La Miseria</i>, oil on canvas, 1886, Galería de Arte Nacional, Caracas.<br><i>Click to enlarge.</i></div></div>
+</div></div></div>
+   <div class="modal fade" id="Ex4Fig1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/8d/Cristobal_Rojas_37a.JPG" class="img-fluid" alt="Painting of a man at a woman's sickbed">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+ 
+   <div id="exhibitText5" class="container-fluid tab-pane fade"><div class="row" style="padding: 0vw 5vw">
+    <div class="col-lg-4 col-md-4 col-sm-11 shadow" style="background-color:#210f04; margin:5px 0px; padding:-5px; box-shadow: 10px 10px black;"><h3 class="text-lg-left text-md-left text-sm-center shadow">Charleston, Then and Now</h3></div>
+    </div><div class="row justify-content-center">
+     <div class="col-lg-7 col-md-6 col-sm-11">
+    <p>Although medicine has thankfully moved beyond opium for the common cold, some responses to the diseases of the 1800s will stand out to a 2020 audience. “The epidemic Yellow Fever,” reads an 1859 Charleston City Council report, “which is supposed by a respectable part of the citizens of Charleston can be prevented by Quarantine Laws; while, on the other hand, a large and intelligent portion are of opinion that this fatal enemy to the health, trade, and commerce of the city, is of local origin—dependent upon local causes—and can only be prevented or modified by the most rigid sanitary regulations of the municipal authority.”<sup>1</sup> A commentator in April 2020 echoed this uncertainty over the value of quarantine, saying ”Why ruin our lives to keep us safe?… Give me a three-day virus, I'm totally cool with that, just don't ruin my life to do it.”<sup>2</sup> One hopes she at least adheres to “the most rigid sanitary regulations.”</p>
+    <p>There also existed a familiar difference between the effect of illness on white and black bodies. Treatment of African Americans by predominantly white doctors was hindered by preconceptions that enslaved people were both prone to faking illness to avoid work and naturally immune or resistant to many common tropical diseases.<sup>3</sup> Of all deaths nationally in 1860, white deaths numbered 1.21 per 100 people, free people of color 1.27 per 100, and enslaved persons 1.76 per 100.<sup>4</sup> In Charleston the situation was even more dire, with deaths at 2.67 per 100 white people, 3.94 per 100 free people of color, and 3.44 per 100 enslaved persons.<sup>5</sup> The 1860 census report explains, “The less mortality among whites is evidently connected with their more affluent circumstances, including the command of the highest medical skill and the requisite care and attendance in sickness.”<sup>6</sup> </p>
+    <p>Meanwhile in the present, cases of COVID-19 among Black Americans is 2.6 times that of white persons, with hospitalizations at 4.7 times and deaths 2.1 times the rate of white Americans.<sup>7</sup> The Centers for Disease Control (CDC) attributes this to causes similar to those given in the 1860 census report, including “socioeconomic status, access to health care, and increased exposure to the virus due to occupation (e.g., frontline, essential, and critical infrastructure workers).”<sup>8</sup> Clearly there is a barrier to health and wellbeing that was not solved by emancipation, and one that is more prominent than ever for those once again living in dangerous and disunifying times. </p>
+    <p>Charlestonians have always been forced to continue our daily lives while tumultuous history unfolds. Under British occupation of the city we cooked our meals, as South Carolina seceded from the Union we went to work, and as COVID-19 ravages our community we mourn our losses as always. In many ways we have grown and improved and in many ways we have not, but as always we are responsible to each other to carry on, to learn from our past, and to remember.</p>
+    <hr>
+<div class="footnotes"><sup>1 </sup>Charleston City Council Committee on Ordinance Concerning the Board of Health and Quarantine, <i>Report of the Committee of City Council of Charleston, upon the Epidemic Yellow Fever, of 1858</i>(Charleston: Walker, Evans, 1859), 4.</div>
+<div class="footnotes"><sup>2 </sup>Kirk Siegler, “Across America, Frustrated Protesters Rally To Reopen The Economy,” <i>NPR.org</i>, April 18, 2020, accessed November 16, 2020, https://www.npr.org/2020/04/18/837776218/across-america-frustrated-protesters-rally-to-reopen-the-economy.</div>
+<div class="footnotes"><sup>3 </sup>Marli Frances Weiner and Mazie Hough, <i>Sex, Sickness, and Slavery: Illness in the Antebellum South</i> (Urbana: University of Illinois Press, 2012), 24-25.</div>
+<div class="footnotes"><sup>4 </sup>United States Census Office and J. C. G. Kennedy, <i>Population of the United States in 1860; Compiled from the Original Returns of the Eighth Census under the Direction of the Secretary of the Interior</i> (Washington, D.C.: Govt. Print. Off, 1864), xlv.</div>
+<div class="footnotes"><sup>5 </sup>Total 26,294 white, 3,785 free POC, and 17,654 enslaved people in the city according to the 1861 city census. The Return of Deaths lists 703 white, 149 free POC, and 608 Black deaths. Charleston S.C. and Frederick A. Ford, <i>Census of the City of Charleston, South Carolina, for the Year 1861</i> (Charleston: Evans & Cogswell, 1861), 10-14.; City of Charleston, SC Board of Health, <i>South Carolina, Charleston City Death Records, 1821-1926</i>, database, FamilySearch.org, film 007576007, 350-410. https://www.familysearch.org/search/catalog/3477663.</div>
+<div class="footnotes"><sup>6 </sup>United States Census Office and Kennedy, <i>Population of the United States in 1860</i>, xlv.</div>
+<div class="footnotes"><sup>7 </sup>CDC, “Coronavirus Disease 2019 (COVID-19),” <i>Centers for Disease Control and Prevention</i>, last modified February 11, 2020, accessed October 23, 2020, https://www.cdc.gov/coronavirus/2019-ncov/covid-data/investigations-discovery/hospitalization-death-by-race-ethnicity.html.</div>
+<div class="footnotes"><sup>8 </sup>CDC, “Coronavirus Disease 2019 (COVID-19),”</div>
+
+    </div>
+    <div class="col-lg-4 col-md-5 col-sm-11">
+   <div><img src="https://tile.loc.gov/storage-services/service/pnp/cwpb/02300/02366v.jpg" data-toggle="modal" data-target="#Ex5Fig1" class="img-fluid" alt="Circular Church Cemetery 1865"><div class="footnotes text-center"><i>Charleston, S.C. Graveyard of the Ruined Circular Church</i>, Photograph, April 1865, Library of Congress.<br><i>Click to enlarge</i></div></div>
+<div><img src="https://lh3.googleusercontent.com/j-bxynSqkSee4EP5CdpE0dp4Z_WQW-_VYa8bhmfcLT_DhlEpzck-m9BpjewnpaQgAiJiie2WFtKbp8U-ZbL_cmvfh3Va06nYhgvLtwaYb_na-1cdYNhNpShqCq6lUlQ7VVlYwSueOBwXYPZ-SxUAG-UQwrg41sP5n79_b78ZjBfGC4-amJcWJ-Jc5DryrSLpmfwlB_O0BltJkOzHNXPhTRsygBVVe4rIW_yYWj465VcaBsMGJuuglJl9YVcAYVUjwTvQeMHELO5LpDk_YuoJV2QzYxZuchu4Vp7JRbACAca79gPQFZtcfOG63RBYtVq2lTODb_SEd3Fyz2hgsmS74xGebD_dhqYm-MTOffH26iyry3yfxwEWKesr_ZZg5yxXq88wuDpwJCeMPTDFrgvyPAgN8nj-Tirt2Fd01LL_Cb7cmx5N-YeA7E673t42SrFFpfLXZJnGWHfjazmPeGTwgptTY2KuXkli69Gn4bIZ2y8UVJQ6NCmOP4uach8h_YIg5j6unpTtkzdtk49N4-eOeMCnQfmNJZVjbSx6xh9hHzRZtiflJahyuRmUgImSMVF9nMaMQQKOa96BwImNg8-0rIBQocwJ7JmFc8XqV1hLDNyuBBAMCH4v4UQZuIfvwhVxDmKFggyUrnzVBVMJgyLJbBO9N7AYhqwctVw6aUDcquMpOme8r7VjTrYX6ysVMg=w930-h698-no?authuser=0" data-toggle="modal" data-target="#Ex5Fig2" class="img-fluid" alt="Circular Church Cemetery"><div class="footnotes text-center">Danielle Cox, <i>Circular Church Cemetery</i>, Photograph, October 2011, Author’s Private Collection.<br><i>Click to enlarge</i></div></div>
+</div></div></div></div>
+   <div class="modal fade" id="Ex5Fig1" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://tile.loc.gov/storage-services/service/pnp/cwpb/02300/02366v.jpg" class="img-fluid" alt="Circular Church Cemetery 1865">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex5Fig2" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://lh3.googleusercontent.com/j-bxynSqkSee4EP5CdpE0dp4Z_WQW-_VYa8bhmfcLT_DhlEpzck-m9BpjewnpaQgAiJiie2WFtKbp8U-ZbL_cmvfh3Va06nYhgvLtwaYb_na-1cdYNhNpShqCq6lUlQ7VVlYwSueOBwXYPZ-SxUAG-UQwrg41sP5n79_b78ZjBfGC4-amJcWJ-Jc5DryrSLpmfwlB_O0BltJkOzHNXPhTRsygBVVe4rIW_yYWj465VcaBsMGJuuglJl9YVcAYVUjwTvQeMHELO5LpDk_YuoJV2QzYxZuchu4Vp7JRbACAca79gPQFZtcfOG63RBYtVq2lTODb_SEd3Fyz2hgsmS74xGebD_dhqYm-MTOffH26iyry3yfxwEWKesr_ZZg5yxXq88wuDpwJCeMPTDFrgvyPAgN8nj-Tirt2Fd01LL_Cb7cmx5N-YeA7E673t42SrFFpfLXZJnGWHfjazmPeGTwgptTY2KuXkli69Gn4bIZ2y8UVJQ6NCmOP4uach8h_YIg5j6unpTtkzdtk49N4-eOeMCnQfmNJZVjbSx6xh9hHzRZtiflJahyuRmUgImSMVF9nMaMQQKOa96BwImNg8-0rIBQocwJ7JmFc8XqV1hLDNyuBBAMCH4v4UQZuIfvwhVxDmKFggyUrnzVBVMJgyLJbBO9N7AYhqwctVw6aUDcquMpOme8r7VjTrYX6ysVMg=w930-h698-no?authuser=0" class="img-fluid" alt="Circular Church Cemetery">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex1Fig3" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/City.png" class="img-fluid" alt="A population pyramid for the United States, 1860">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <div class="modal fade" id="Ex1Fig4" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog  modal-lg"  role="document">
+    <div class="modal-content" >
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <img src="https://returnofdeaths.000webhostapp.com/images/Death%20Records.png" class="img-fluid" alt="A population pyramid for the United States, 1860">
+           <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  <!-- Footer -->
+<div class="container-fluid" style="background:#210F04">
+    <div class="row">
+      <div class="col align-bottom">
+    <p style="font-size:15px; margin:5px 0px; color: #BCAB88">Copyright ©<script>document.write(new Date().getFullYear());</script> Danielle Cox</p>
+      </div>
+      <!--ADD SOCIAL MEDIA BUTTONS-->
+      <div class="col" style="margin:10px 0px">
+        
+	<a target="_blank" href="http://www.facebook.com/share.php?u=tinyurl.com/IIExhibit">
+	<img title="Facebook" alt="Facebook" src="https://socialmediawidgets.files.wordpress.com/2014/03/02_facebook.png" width="35" height="35">
+	</a>
+	<a target="_blank" href="https://twitter.com/intent/tweet?url=tinyurl.com/IIIExhibit&text=I+just+visited+the+Inhabitants,+Illness,+and+Interments+Online+Exhibit+and+I+think...&hashtags=IIIExhibit,CharlestonHistory">
+<img title="Twitter" alt="Twitter" src="https://socialmediawidgets.files.wordpress.com/2014/03/01_twitter.png" width="35" height="35" />
+</a>
+	<a target="_blank" href="https://www.linkedin.com/in/danielle-cox-499a84106">
+	<img title="LinkedIn" alt="LinkedIn" src="https://socialmediawidgets.files.wordpress.com/2014/03/07_linkedin.png" width="35" height="35">
+	</a>
+	
+  <a href="mailto:coxda@g.cofc.edu">
+	<img title="email" alt="Email" src="http://icons.iconarchive.com/icons/graphicloads/100-flat-2/128/email-icon.png" width="35" height="35">
+	</a>
+	</div>
+    
+      </div>
+  <div class="row">
+    <div class="col">
+	<p class="justify-text-center" style="font-size:10px; color:#9F9382">I coded this website myself from scratch, so please be patient with any bugs.</p>
+</div>
+    </div>
+  </div>
+  </body>
+</html>
